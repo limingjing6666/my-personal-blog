@@ -1,0 +1,25 @@
+---
+// Umami Analytics 统计组件
+// 轻量级、注重隐私的网站分析工具
+
+// 从环境变量或配置中读取
+const UMAMI_WEBSITE_ID = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
+const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
+
+// 是否启用 Umami
+const isEnabled = UMAMI_WEBSITE_ID && UMAMI_WEBSITE_ID !== 'YOUR_WEBSITE_ID';
+---
+
+{isEnabled && (
+	<script
+		async
+		defer
+		data-website-id={UMAMI_WEBSITE_ID}
+		src={UMAMI_SRC}
+	></script>
+)}
+
+{!isEnabled && (
+	<!-- Umami Analytics 未配置 -->
+	<!-- 请在 .env 文件中设置 PUBLIC_UMAMI_WEBSITE_ID -->
+)}

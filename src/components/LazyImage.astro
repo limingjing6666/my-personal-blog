@@ -1,0 +1,48 @@
+---
+// 懒加载图片组件
+// 提升页面加载性能
+interface Props {
+	src: string;
+	alt: string;
+	class?: string;
+	width?: number;
+	height?: number;
+	loading?: "lazy" | "eager";
+}
+
+const {
+	src,
+	alt,
+	class: className = "",
+	width,
+	height,
+	loading = "lazy",
+} = Astro.props;
+---
+
+<img
+	src={src}
+	alt={alt}
+	class:list={["lazy-image", className]}
+	width={width}
+	height={height}
+	loading={loading}
+	decoding="async"
+/>
+
+<style>
+	.lazy-image {
+		transition: opacity 0.3s ease-in-out;
+	}
+
+	.lazy-image[loading="lazy"] {
+		opacity: 0;
+		animation: fadeIn 0.3s ease-in-out forwards;
+	}
+
+	@keyframes fadeIn {
+		to {
+			opacity: 1;
+		}
+	}
+</style>

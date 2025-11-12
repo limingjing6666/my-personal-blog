@@ -1,0 +1,76 @@
+---
+// SEO 增强组件
+// 添加更完善的 meta 标签和 Open Graph 支持
+import { siteConfig, profileConfig } from "../config";
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	article?: boolean;
+	publishedTime?: Date;
+	modifiedTime?: Date;
+	tags?: string[];
+	lang?: string;
+}
+
+const {
+	title = siteConfig.title,
+	description = siteConfig.subtitle,
+	image,
+	article = false,
+	publishedTime,
+	modifiedTime,
+	tags = [],
+	lang = siteConfig.lang,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = image
+	? new URL(image, Astro.site)
+	: new URL("/og-image.png", Astro.site); // 默认 OG 图片
+
+const pageTitle = title === siteConfig.title ? title : `${title} - ${siteConfig.title}`;
+---
+
+<!-- 基础 SEO -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={lang.replace("_", "-")} />
+
+{article && publishedTime && (
+	<meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
+{article && modifiedTime && (
+	<meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{article && tags.map((tag) => (
+	<meta property="article:tag" content={tag} />
+))}
+{article && (
+	<meta property="article:author" content={profileConfig.name} />
+)}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
+{profileConfig.links.find(l => l.name === "Twitter") && (
+	<meta name="twitter:creator" content={`@${profileConfig.links.find(l => l.name === "Twitter")?.url.split("/").pop()}`} />
+)}
+
+<!-- 其他 SEO 标签 -->
+<meta name="robots" content="index, follow" />
+<meta name="googlebot" content="index, follow" />
+<meta name="theme-color" content="#7c3aed" />
+
+<!-- 结构化数据会在各个页面单独添加 -->

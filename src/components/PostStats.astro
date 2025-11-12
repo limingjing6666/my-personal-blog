@@ -1,0 +1,201 @@
+---
+// 文章统计组件
+// 包括访问量统计和阅读进度跟踪
+const { title } = Astro.props;
+---
+
+<!-- 阅读进度条 -->
+<div id="reading-progress" class="fixed top-0 left-0 w-full h-1 bg-transparent z-50">
+	<div id="progress-bar" class="h-full bg-gradient-to-r from-[var(--primary)] to-purple-500 transition-all duration-150" style="width: 0%"></div>
+</div>
+
+<!-- 文章统计信息 -->
+<div id="post-stats" class="card-base px-6 py-4 mb-4 flex flex-wrap gap-4 items-center justify-between text-sm">
+	<div class="flex gap-4 flex-wrap">
+		<!-- 阅读进度 -->
+		<div class="flex items-center gap-2">
+			<div class="h-8 w-8 rounded-lg bg-[var(--primary)]/10 flex items-center justify-center">
+				<span class="text-lg">📖</span>
+			</div>
+			<div>
+				<div class="text-xs text-[var(--text-secondary)]">阅读进度</div>
+				<div class="font-bold text-[var(--primary)]" id="reading-percentage">0%</div>
+			</div>
+		</div>
+
+		<!-- 阅读时长 -->
+		<div class="flex items-center gap-2">
+			<div class="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+				<span class="text-lg">⏱️</span>
+			</div>
+			<div>
+				<div class="text-xs text-[var(--text-secondary)]">阅读时长</div>
+				<div class="font-bold text-blue-500" id="reading-time">0 秒</div>
+			</div>
+		</div>
+
+		<!-- 访问量（需要后端支持，这里使用 localStorage 模拟）-->
+		<div class="flex items-center gap-2">
+			<div class="h-8 w-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+				<span class="text-lg">👁️</span>
+			</div>
+			<div>
+				<div class="text-xs text-[var(--text-secondary)]">浏览次数</div>
+				<div class="font-bold text-green-500" id="view-count">-</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 返回顶部按钮 -->
+	<button 
+		id="scroll-to-top" 
+		class="btn-plain h-10 px-4 rounded-lg opacity-0 pointer-events-none transition-all"
+		aria-label="Back to Top"
+	>
+		<span class="text-sm">↑ 返回顶部</span>
+	</button>
+</div>
+
+<script define:vars={{ title }}>
+	// 阅读进度跟踪
+	let startTime = Date.now();
+	let readingTime = 0;
+	let isReading = true;
+
+	// 更新阅读进度条
+	function updateReadingProgress() {
+		const windowHeight = window.innerHeight;
+		const documentHeight = document.documentElement.scrollHeight;
+		const scrollTop = window.scrollY || document.documentElement.scrollTop;
+		
+		const totalHeight = documentHeight - windowHeight;
+		const progress = (scrollTop / totalHeight) * 100;
+		
+		const progressBar = document.getElementById('progress-bar');
+		const percentage = document.getElementById('reading-percentage');
+		const scrollBtn = document.getElementById('scroll-to-top');
+		
+		if (progressBar) {
+			progressBar.style.width = `${Math.min(progress, 100)}%`;
+		}
+		
+		if (percentage) {
+			percentage.textContent = `${Math.round(Math.min(progress, 100))}%`;
+		}
+
+		// 显示/隐藏返回顶部按钮
+		if (scrollBtn) {
+			if (progress > 20) {
+				scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
+				scrollBtn.classList.add('opacity-100');
+			} else {
+				scrollBtn.classList.add('opacity-0', 'pointer-events-none');
+				scrollBtn.classList.remove('opacity-100');
+			}
+		}
+	}
+
+	// 更新阅读时长
+	function updateReadingTime() {
+		if (isReading) {
+			readingTime = Math.floor((Date.now() - startTime) / 1000);
+			const timeElement = document.getElementById('reading-time');
+			
+			if (timeElement) {
+				if (readingTime < 60) {
+					timeElement.textContent = `${readingTime} 秒`;
+				} else if (readingTime < 3600) {
+					const minutes = Math.floor(readingTime / 60);
+					const seconds = readingTime % 60;
+					timeElement.textContent = `${minutes} 分 ${seconds} 秒`;
+				} else {
+					const hours = Math.floor(readingTime / 3600);
+					const minutes = Math.floor((readingTime % 3600) / 60);
+					timeElement.textContent = `${hours} 小时 ${minutes} 分`;
+				}
+			}
+		}
+	}
+
+	// 访问量统计（使用 localStorage 模拟）
+	function updateViewCount() {
+		const storageKey = `post-views-${encodeURIComponent(title)}`;
+		let views = parseInt(localStorage.getItem(storageKey) || '0');
+		views++;
+		localStorage.setItem(storageKey, views.toString());
+		
+		const viewElement = document.getElementById('view-count');
+		if (viewElement) {
+			viewElement.textContent = views.toString();
+		}
+	}
+
+	// 返回顶部
+	function scrollToTop() {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	}
+
+	// 页面可见性变化
+	function handleVisibilityChange() {
+		isReading = !document.hidden;
+		if (isReading) {
+			startTime = Date.now() - (readingTime * 1000);
+		}
+	}
+
+	// 初始化
+	function init() {
+		updateReadingProgress();
+		updateViewCount();
+		
+		// 监听滚动
+		window.addEventListener('scroll', updateReadingProgress, { passive: true });
+		
+		// 每秒更新阅读时长
+		setInterval(updateReadingTime, 1000);
+		
+		// 监听页面可见性
+		document.addEventListener('visibilitychange', handleVisibilityChange);
+		
+		// 返回顶部按钮
+		const scrollBtn = document.getElementById('scroll-to-top');
+		if (scrollBtn) {
+			scrollBtn.addEventListener('click', scrollToTop);
+		}
+	}
+
+	// 页面加载完成后初始化
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		init();
+	}
+</script>
+
+<style>
+	#reading-progress {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	#post-stats {
+		animation: slideUp 0.5s ease-out;
+	}
+
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	#scroll-to-top:hover {
+		background: var(--btn-plain-bg-hover);
+	}
+</style>

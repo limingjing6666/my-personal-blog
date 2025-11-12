@@ -1,0 +1,90 @@
+---
+// 多语言文章版本切换组件
+// 支持同一篇文章的不同语言版本
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	currentSlug: string;
+	currentLang?: string;
+	availableVersions?: Array<{ lang: string; slug: string; name: string }>;
+}
+
+const { currentSlug, currentLang = "zh_CN", availableVersions = [] } = Astro.props;
+
+// 如果没有其他语言版本，不显示组件
+if (availableVersions.length === 0) {
+	return null;
+}
+---
+
+<div class="language-versions card-base px-6 py-4 mb-4">
+	<div class="flex items-center gap-3">
+		<Icon name="material-symbols:translate" class="text-xl text-[var(--primary)]" />
+		<span class="font-bold">其他语言版本</span>
+	</div>
+	
+	<div class="mt-3 flex flex-wrap gap-2">
+		{availableVersions.map((version) => (
+			<a
+				href={`/posts/${version.slug}/`}
+				class:list={[
+					"lang-version-btn",
+					{ active: version.lang === currentLang }
+				]}
+			>
+				<span class="flag">{version.lang === "zh_CN" ? "🇨🇳" : version.lang === "en" ? "🇺🇸" : "🌐"}</span>
+				<span>{version.name}</span>
+				{version.lang === currentLang && (
+					<Icon name="material-symbols:check" class="text-sm" />
+				)}
+			</a>
+		))}
+	</div>
+</div>
+
+<style>
+	.language-versions {
+		animation: slideIn 0.5s ease-out;
+	}
+
+	.lang-version-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		border: 2px solid var(--line-divider);
+		background: transparent;
+		transition: all 0.2s;
+		cursor: pointer;
+		text-decoration: none;
+		color: var(--text-color);
+	}
+
+	.lang-version-btn:hover {
+		border-color: var(--primary);
+		background: var(--primary)/10;
+		transform: translateY(-2px);
+	}
+
+	.lang-version-btn.active {
+		border-color: var(--primary);
+		background: var(--primary)/10;
+		font-weight: bold;
+	}
+
+	.flag {
+		font-size: 1.25rem;
+	}
+
+	@keyframes slideIn {
+		from {
+			opacity: 0;
+			transform: translateX(-20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+</style>
