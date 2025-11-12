@@ -5,16 +5,7 @@ export type SiteConfig = {
 	subtitle: string;
 
 	lang:
-		| "en"
-		| "zh_CN"
-		| "zh_TW"
-		| "ja"
-		| "ko"
-		| "es"
-		| "th"
-		| "vi"
-		| "tr"
-		| "id";
+		| "zh_CN";
 
 	themeColor: {
 		hue: number;

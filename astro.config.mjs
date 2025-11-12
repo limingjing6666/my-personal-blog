@@ -26,7 +26,7 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://your-blog-domain.vercel.app/", // 请替换为您的实际域名
+	site: "https://my-personal-blog-henna.vercel.app/", // 请替换为您的实际域名
 	base: "/",
 	trailingSlash: "always",
 	server: {

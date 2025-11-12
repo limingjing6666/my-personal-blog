@@ -90,4 +90,4 @@ console.log("Hello, World!");
 fs.writeFileSync(path.join(targetDir, fileName), content)
 
 console.log(`✅ 文章 ${fullPath} 创建成功！`)
-console.log(`📝 现在可以编辑文件并开始写作了。`)
+console.log("📝 现在可以编辑文件并开始写作了。")
