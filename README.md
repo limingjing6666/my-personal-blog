@@ -147,8 +147,7 @@ tsconfig.json       # TypeScript 配置
 1.  将您的代码推送到 GitHub 仓库。
 2.  登录 [Vercel](https://vercel.com/) 并选择 "Import Project"。
 3.  选择您的 GitHub 仓库。
-4.  **重要**: 在 "Environment Variables" 部分添加您的 `PUBLIC_UMAMI_WEBSITE_ID`。
-5.  点击 "Deploy"。
+4.  点击 "Deploy"。
 
  Vercel 会自动检测 Astro 项目并进行构建和部署。后续的 `git push` 将触发自动更新。
 
