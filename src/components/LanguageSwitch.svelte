@@ -16,7 +16,7 @@ onMount(() => {
 	if (savedLang) {
 		currentLang = savedLang;
 	}
-	
+
 	// 应用语言到页面
 	applyLanguageToPage(currentLang);
 });
@@ -24,7 +24,7 @@ onMount(() => {
 function applyLanguageToPage(lang: string) {
 	// 更新 HTML lang 属性
 	document.documentElement.lang = lang.replace("_", "-");
-	
+
 	// 触发自定义事件通知其他组件语言已更改
 	window.dispatchEvent(new CustomEvent("languagechange", { detail: { lang } }));
 }
@@ -39,7 +39,7 @@ function selectLanguage(lang: string) {
 		currentLang = lang;
 		localStorage.setItem("blogLanguage", lang);
 		applyLanguageToPage(lang);
-		
+
 		// 重新加载页面以应用新语言
 		window.location.reload();
 	}

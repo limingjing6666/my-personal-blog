@@ -11,9 +11,7 @@ export type Translation = {
 const defaultTranslation = zh_CN;
 
 const map: { [key: string]: Translation } = {
-
 	zh_cn: zh_CN,
-	
 };
 
 export function getTranslation(lang: string): Translation {

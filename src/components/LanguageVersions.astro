@@ -9,7 +9,11 @@ interface Props {
 	availableVersions?: Array<{ lang: string; slug: string; name: string }>;
 }
 
-const { currentSlug, currentLang = "zh_CN", availableVersions = [] } = Astro.props;
+const {
+	currentSlug,
+	currentLang = "zh_CN",
+	availableVersions = [],
+} = Astro.props;
 
 // 如果没有其他语言版本，不显示组件
 if (availableVersions.length === 0) {

@@ -30,7 +30,8 @@ const socialImageURL = image
 	? new URL(image, Astro.site)
 	: new URL("/og-image.png", Astro.site); // 默认 OG 图片
 
-const pageTitle = title === siteConfig.title ? title : `${title} - ${siteConfig.title}`;
+const pageTitle =
+	title === siteConfig.title ? title : `${title} - ${siteConfig.title}`;
 ---
 
 <!-- 基础 SEO -->
