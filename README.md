@@ -1,9 +1,6 @@
 # 🚀 我的个人博客 - Fuwari 增强版
 
 这是一个基于 [Fuwari](https://github.com/saicaca/fuwari) 模板深度定制和功能增强的现代化个人博客系统。它不仅拥有 Fuwari 原生的优雅设计和高性能，还集成了一系列专业功能，使其成为一个功能完善、体验卓越的个人内容发布平台。
-
-**版本: 3.1** (最后更新: 2025-11-10)
-
 ---
 
 ## ✨ 功能亮点
@@ -14,17 +11,13 @@
 | | 🌓 明暗主题切换 | ✅ |
 | | 🔍 全文内容搜索 (Pagefind) | ✅ |
 | | 📱 响应式设计 | ✅ |
-| **国际化** | 🌐 **中/英文界面切换** | ✅ |
-| | 📄 **多语言文章支持** | ✅ |
 | **互动体验** | 💬 **Giscus 评论系统** (基于 GitHub Discussions) | ✅ |
 | | 👍 **文章点赞/反应** (可集成) | 💡 建议 |
-| **数据分析** | 📊 **Umami 真实访问统计** (隐私友好) | ✅ |
-| | 📈 **文章阅读统计** (进度条、时长、浏览量) | ✅ |
 | **SEO 优化** | 🔍 **完整的 SEO 增强** (Sitemap, Open Graph, JSON-LD) | ✅ |
 | **社交分享** | 🔗 **一键社交分享** (Twitter, Facebook, LinkedIn, 微博) | ✅ |
 | **性能优化** | ⚡ **高级性能优化** (图片懒加载, 代码分割) | ✅ |
 | **内容管理** | 📚 **文章系列功能** (可集成) | 💡 建议 |
-| | 📧 **Newsletter 订阅** (可集成) | 💡 建议 |
+
 
 ---
 
@@ -35,8 +28,7 @@
 - **样式**: [Tailwind CSS](https://tailwindcss.com/) - 一个功能优先的 CSS 框架。
 - **搜索**: [Pagefind](https://pagefind.app/) - 静态网站的全文搜索库。
 - **评论**: [Giscus](https://giscus.app/) - 基于 GitHub Discussions 的评论系统。
-- **统计**: [Umami](https://umami.is/) - 开源、注重隐私的网站分析工具。
-- **部署**: [Vercel](https://vercel.com/) / [Netlify](https://www.netlify.com/) / [Cloudflare Pages](https://pages.cloudflare.com/)
+- **部署**: [Vercel](https://vercel.com/) - 用于部署和托管。
 
 ---
 
@@ -97,21 +89,7 @@ export default defineConfig({
   // ...
 });
 ```
-
-### 3. Umami 统计配置 (高优先级)
-
-1.  访问 [Umami Cloud](https://cloud.umami.is) 注册并获取 **Website ID**。
-2.  在项目根目录创建 `.env` 文件。
-3.  添加以下内容：
-
-    ```env
-    # .env
-    PUBLIC_UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    ```
-
-    > **注意**: 在 Vercel 等平台部署时，需要将此设置为环境变量。
-
-### 4. Giscus 评论配置 (高优先级)
+### 3. Giscus 评论配置 (高优先级)
 
 1.  确保您的 GitHub 仓库已启用 **Discussions** 功能。
 2.  访问 [Giscus.app](https://giscus.app/) 并按照说明生成配置。

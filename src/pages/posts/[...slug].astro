@@ -5,7 +5,7 @@ import Markdown from "@components/misc/Markdown.astro";
 import Comment from "@components/Comment.astro";
 
 import ShareButtons from "@components/ShareButtons.astro";
-import ViewCounter from "@components/ViewCounter.astro";
+
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -63,8 +63,7 @@ const jsonLd = {
                         <Icon name="material-symbols:notes-rounded"></Icon>
                     </div>
                     <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
-                </div>
-                <ViewCounter title={entry.data.title} />
+                </div>  
             </div>
 
             <!-- title -->
