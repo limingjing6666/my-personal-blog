@@ -96,11 +96,13 @@ sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [
-    "https://1nj0zren.mirror.aliyuncs.com",  # 阿里云（需替换为自己的加速地址）
-    "https://docker.mirrors.ustc.edu.cn"     # 中科大
+    "https ://docker .m.daocloud.io",
+    "https ://docker .1panel.live"
   ]
 }
 EOF
+```
+注；我这里使用了DaoCloud和1Panel的镜像加速，可自行替换为其他镜像源。
 ```
 2. 重启 Docker 生效：
 ```bash
