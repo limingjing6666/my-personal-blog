@@ -102,10 +102,11 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 }
 EOF
 ```
-注；我这里使用了DaoCloud和1Panel的镜像加速，可自行替换为其他镜像源。
-```
+> **说明**：我这里使用了daocloud和1Panel的镜像加速，可自行替换为其他镜像源。
+
 2. 重启 Docker 生效：
 ```bash
+sudo systemctl enable docker
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
