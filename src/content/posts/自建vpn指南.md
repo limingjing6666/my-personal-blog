@@ -1,10 +1,10 @@
 ---
-title: "自建vpn指南"
-published: "2026-01-31"
-description: "自建vpn"
-image: ""
-tags: ["vpn"]
-category: "指南"
+title: 自建vpn指南
+published: 2026-01-31
+description: 自建vpn
+#image: ""
+tags: [vpn]
+category: 指南
 draft: false
 ---
 
