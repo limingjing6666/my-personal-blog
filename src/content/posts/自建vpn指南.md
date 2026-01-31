@@ -1,12 +1,11 @@
 ---
 title: "自建vpn指南"
-pubDate: "2026-01-31"
-description: "在这里填写文章的简短描述"
+published: "2026-01-31"
+description: "自建vpn"
 image: ""
-tags: ["标签1", "标签2"]
-category: "分类"
+tags: ["vpn"]
+category: "指南"
 draft: false
-lang: "zh_CN"
 ---
 
 ## 自建梯子指南
