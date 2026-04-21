@@ -1,25 +1,173 @@
 ---
-
+import { profileConfig } from "@/config";
 import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
+import { Icon } from "astro-icon/components";
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
 const aboutPost = await getEntry("spec", "about");
-
 if (!aboutPost) {
-	throw new Error("About page content not found");
+    throw new Error("About page content not found");
 }
-
 const { Content } = await render(aboutPost);
+
+const meta = aboutPost.data;
+const name = meta.name || profileConfig.name;
+const title = meta.title || "";
+const email = meta.email || "";
+const github = meta.github || "";
+const website = meta.website || "";
+const phone = meta.phone || "";
+const location = meta.location || "";
 ---
+
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
+    <div class="resume-sheet card-base w-full relative">
+
+        <!-- ===== HEADER ===== -->
+        <div class="resume-header px-10 md:px-14 pt-10 pb-6 border-b border-[var(--line-divider)]">
+            <div class="flex items-center gap-6">
+                <div class="resume-avatar flex-shrink-0 rounded-full overflow-hidden w-20 h-20 md:w-24 md:h-24 border-2 border-[var(--line-color)]">
+                    <ImageWrapper
+                        src={profileConfig.avatar || ""}
+                        alt="个人照片"
+                        class="w-full h-full aspect-square object-cover"
+                    />
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h1 class="resume-name font-serif text-2xl md:text-3xl font-bold text-90 tracking-wide">{name}</h1>
+                    {title && <div class="resume-title text-sm text-75 mt-1 font-sans">求职意向：{title}</div>}
+                </div>
+            </div>
+            {(email || github || website || phone || location) && <div class="resume-contact flex flex-wrap gap-x-6 gap-y-1.5 mt-4 text-xs text-50 font-sans">
+                {phone && <span class="flex items-center gap-1.5">
+                    <Icon name="fa6-solid:phone" class="text-[0.7rem] text-[var(--primary)]" />
+                    {phone}
+                </span>}
+                {email && <span class="flex items-center gap-1.5">
+                    <Icon name="fa6-regular:envelope" class="text-[0.7rem] text-[var(--primary)]" />
+                    {email}
+                </span>}
+                {location && <span class="flex items-center gap-1.5">
+                    <Icon name="fa6-solid:location-dot" class="text-[0.7rem] text-[var(--primary)]" />
+                    {location}
+                </span>}
+                {github && <span class="flex items-center gap-1.5">
+                    <Icon name="fa6-brands:github" class="text-[0.7rem] text-[var(--primary)]" />
+                    github.com/{github}
+                </span>}
+                {website && <span class="flex items-center gap-1.5">
+                    <Icon name="fa6-solid:globe" class="text-[0.7rem] text-[var(--primary)]" />
+                    {website}
+                </span>}
+            </div>}
+        </div>
+
+        <!-- ===== BODY (from Markdown) ===== -->
+        <div class="resume-body resume-md px-10 md:px-14 py-8">
+            <Content />
         </div>
     </div>
 </MainGridLayout>
+
+<style>
+    /* Page entrance */
+    .resume-sheet {
+        animation: resumeIn 0.5s ease-out both;
+    }
+    @keyframes resumeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Resume-specific Markdown overrides */
+    .resume-body :global(h2) {
+        font-family: var(--font-serif), serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: oklch(from var(--primary) l c h);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 1px solid var(--line-divider);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        transition: color 0.2s ease;
+    }
+    .resume-body :global(h2:first-child) {
+        margin-top: 0;
+    }
+    .resume-body :global(h3) {
+        font-family: var(--font-sans), sans-serif;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: oklch(0.5 0.03 85 / 1);
+        margin-bottom: 0.25rem;
+    }
+    :root.dark .resume-body :global(h3) {
+        color: oklch(0.9 0.005 85 / 1);
+    }
+    .resume-body :global(p) {
+        font-family: var(--font-sans), sans-serif;
+        font-size: 0.8125rem;
+        line-height: 1.7;
+        color: oklch(0.5 0.03 85 / 0.75);
+        margin-bottom: 0.5rem;
+    }
+    :root.dark .resume-body :global(p) {
+        color: oklch(0.75 0.005 85 / 0.75);
+    }
+    .resume-body :global(ul) {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .resume-body :global(ul li) {
+        font-family: var(--font-sans), sans-serif;
+        font-size: 0.8125rem;
+        line-height: 1.7;
+        color: oklch(0.5 0.03 85 / 0.75);
+        padding-left: 1rem;
+        position: relative;
+        margin-bottom: 0.25rem;
+        transition: padding-left 0.15s ease;
+    }
+    .resume-body :global(ul li:hover) {
+        padding-left: 1.25rem;
+    }
+    :root.dark .resume-body :global(ul li) {
+        color: oklch(0.75 0.005 85 / 0.75);
+    }
+    .resume-body :global(ul li::before) {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+    }
+    .resume-body :global(strong) {
+        color: oklch(0.5 0.03 85 / 1);
+    }
+    :root.dark .resume-body :global(strong) {
+        color: oklch(0.9 0.005 85 / 1);
+    }
+    /* Inline code used as date/tech badges */
+    .resume-body :global(code) {
+        font-family: var(--font-sans), sans-serif;
+        font-size: 0.75rem;
+        background: var(--btn-regular-bg);
+        color: var(--btn-content);
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.375rem;
+        margin-left: 0.25rem;
+    }
+
+    /* Print-friendly styles */
+    @media print {
+        .resume-sheet {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+    }
+</style>

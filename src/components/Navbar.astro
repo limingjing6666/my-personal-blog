@@ -22,40 +22,42 @@ let links: NavBarLink[] = navBarConfig.links.map(
 );
 ---
 <div id="navbar" class="z-50 onload-animation">
-    <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
+    <div class="absolute h-8 left-0 right-0 -top-8 bg-black/80 dark:bg-black/60 transition"></div>
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
-                {siteConfig.title}
+        "max-w-[var(--page-width)] h-[3.75rem] mx-auto flex items-center justify-between px-6",
+        "bg-black/80 dark:bg-black/60 backdrop-blur-xl rounded-2xl",
+        "border border-white/[0.08]",
+        "shadow-lg",
+    ]}>
+        <a href={url('/')} class="relative rounded-xl h-[2.75rem] px-4 font-bold active:scale-95 transition-transform flex items-center">
+            <div class="flex flex-row text-white items-center gap-2">
+                <span class="font-serif text-lg tracking-tight">{siteConfig.title}</span>
             </div>
         </a>
-        <div class="hidden md:flex">
+        <div class="hidden md:flex items-center gap-1">
             {links.map((l) => {
                 return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
+                          class="relative rounded-xl h-9 font-medium px-4 active:scale-95 transition-all text-white/80 hover:text-white hover:bg-white/[0.08]"
                 >
-                    <div class="flex items-center">
+                    <div class="flex items-center text-sm">
                         {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
+                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.7rem] transition translate-y-px ml-1.5 text-white/40"></Icon>}
                     </div>
                 </a>;
             })}
         </div>
-        <div class="flex">
-            <!--<SearchPanel client:load>-->
+        <div class="flex items-center gap-0.5">
             <Search client:only="svelte"></Search>
             {!siteConfig.themeColor.fixed && (
-                    <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
-                        <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
+                    <button aria-label="Display Settings" class="rounded-xl h-9 w-9 flex items-center justify-center active:scale-90 transition-all text-white/70 hover:text-white hover:bg-white/[0.08]" id="display-settings-switch">
+                        <Icon name="material-symbols:palette-outline" class="text-[1.1rem]"></Icon>
                     </button>
             )}
 
 			<LightDarkSwitch client:only="svelte"></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
-                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
+            <button aria-label="Menu" name="Nav Menu" class="rounded-xl w-9 h-9 flex items-center justify-center active:scale-90 transition-all text-white/70 hover:text-white hover:bg-white/[0.08] md:!hidden" id="nav-menu-switch">
+                <Icon name="material-symbols:menu-rounded" class="text-[1.1rem]"></Icon>
             </button>
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>

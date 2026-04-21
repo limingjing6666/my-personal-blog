@@ -1,7 +1,9 @@
 ---
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+import "@fontsource-variable/dm-sans";
+import "@fontsource/lora/400.css";
+import "@fontsource/lora/500.css";
+import "@fontsource/lora/700.css";
+import "@fontsource/lora/400-italic.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 
@@ -74,7 +76,7 @@ const bannerOffset =
 ---
 
 <!DOCTYPE html>
-<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px] font-sans"
 	  data-overlayscrollbars-initialize
 >
 	<head>
@@ -487,11 +489,17 @@ function scrollFunction() {
 
 	if (!bannerEnabled) return
 	if (navbar) {
+		const isHome = document.body.classList.contains('lg:is-home')
+		if (!isHome) {
+			// Non-home pages: always keep navbar visible
+			navbar.classList.remove('navbar-hidden')
+			return
+		}
 		const NAVBAR_HEIGHT = 72
 		const MAIN_PANEL_EXCESS_HEIGHT = MAIN_PANEL_OVERLAPS_BANNER_HEIGHT * 16			// The height the main panel overlaps the banner
 
 		let bannerHeight = BANNER_HEIGHT
-		if (document.body.classList.contains('lg:is-home') && window.innerWidth >= 1024) {
+		if (window.innerWidth >= 1024) {
 			bannerHeight = BANNER_HEIGHT_HOME
 		}
 		let threshold = window.innerHeight * (bannerHeight / 100) - NAVBAR_HEIGHT - MAIN_PANEL_EXCESS_HEIGHT - 16

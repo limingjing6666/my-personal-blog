@@ -16,16 +16,36 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+.env.*.local
 
-# macOS-specific files
+# OS files
 .DS_Store
+Thumbs.db
+desktop.ini
 
+# IDE / Editor
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# deployment
 .vercel
+.netlify
 
+# lock files
 package-lock.json
 bun.lockb
 yarn.lock
 
-# ide
-.idea
-*.iml
+# pnpm
+.pnpm-store/
+
+# pagefind search index (generated at build)
+public/pagefind/
+
+# claude
+.claude/

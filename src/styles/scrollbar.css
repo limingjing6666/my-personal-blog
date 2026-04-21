@@ -3,22 +3,22 @@
     pointer-events: unset;
 
     &.os-scrollbar-horizontal {
-        @apply py-1 px-2 h-4;
+        @apply py-1 px-2 h-3;
         .os-scrollbar-track .os-scrollbar-handle {
             @apply rounded-full h-1;
         }
         &:hover .os-scrollbar-track .os-scrollbar-handle {
-            @apply h-2;
+            @apply h-1.5;
         }
     }
 
     &.os-scrollbar-vertical {
-        @apply px-1 py-1 w-4;
+        @apply px-1 py-1 w-3;
         .os-scrollbar-track .os-scrollbar-handle {
             @apply rounded-full w-1;
         }
         &:hover .os-scrollbar-track .os-scrollbar-handle {
-            @apply w-2;
+            @apply w-1.5;
         }
     }
 }
